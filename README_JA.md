@@ -11,6 +11,7 @@
 全てのモデルに試してはいませんが，おそらくほとんどの事前学習モデルが利用できると思います．
 
 ## インストール
+
 ```
 git clone https://github.com/Ryutaro-A/mlm-scoring-transformers.git
 cd mlm-scoring-transformers
@@ -18,7 +19,9 @@ pip install .
 ```
 
 ### 使い方
+
 * 日本語文のスコアを計算したいとき
+
 ```python
 import mlmt
 
@@ -55,6 +58,7 @@ for sentence, score in zip(japanese_sample_sentences, scores):
 ```
 
 * 英語文のスコアを計算したいとき
+
 ```python
 import mlmt
 
@@ -83,9 +87,11 @@ for sentence, score in zip(english_sample_sentences, scores):
 ```
 
 ## configを変更したいとき
+
 基本はモデルの事前学習に用いられたconfigを自動で選択しますが，独自のconfigを用いることもできます．
 
-その場合は以下のように`model_config`を設定してください．
+その場合は以下のように `model_config`を設定してください．
+
 ```python
 config = transformers.BertConfig(
         hidden_act="gelu",
@@ -107,7 +113,11 @@ config = transformers.BertConfig(
 scorer = mlmt.MLMScorer(pretrained_model_name, model_config=config, use_cuda=False)
 ```
 
+## ライセンス
+このソフトウェアは、MITライセンスのもとで公開されています。LICENSE.txtをご覧ください。
+
 ## 連絡先
+
 Twitter: [@ryu1104_m](https://twitter.com/ryu1104_m)'
 
 Mail: ryu1104.as[at]gmail.com

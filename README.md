@@ -108,6 +108,9 @@ config = transformers.BertConfig(
 scorer = mlmt.MLMScorer(pretrained_model_name, model_config=config, use_cuda=False)
 ```
 
+## License
+This software is released under the MIT License, see LICENSE.txt.
+
 ## Contacts
 Twitter: [@ryu1104_m](https://twitter.com/ryu1104_m)
 
