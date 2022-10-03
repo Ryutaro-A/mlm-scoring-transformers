@@ -1,23 +1,22 @@
 # mlm-scoring-transformers
 
-This package is a reproduced implementation of [Masked Language Model Scoring (ACL2020)](https://arxiv.org/abs/1910.14659).
+このパッケージは[Masked Language Model Scoring(ACL2020)](https://arxiv.org/abs/1910.14659)を読んで再現実装を行ったものです．
 
-The original implementation uses the mxnet library, which does not support Japanese.
+本家様の実装ではmxnetライブラリが用いられており，日本語文に対応していません．
 
-Therefore, we are releasing a version that can be used with the Masked Model published on Hugging Face.
+そこで，Hugging Face上で公開されているMasked Modelが使えるようにしたものを公開します．
 
-We have not tried it on all models, but we believe that most of the pre-trained models can be used.
+全てのモデルに試してはいませんが，おそらくほとんどの事前学習モデルが利用できると思います．
 
-
-## Installation
+## インストール
 ```
 git clone https://github.com/Ryutaro-A/mlm-scoring-transformers.git
 cd mlm-scoring-transformers
 pip install .
 ```
 
-### Get Started
-* To calculate scores for Japanese sentences.
+### 使い方
+* 日本語文のスコアを計算したいとき
 ```python
 import mlmt
 
@@ -53,7 +52,7 @@ for sentence, score in zip(sample_sentences, scores):
 # 日本酒を飲むと、駅の反対側にある「××酒蔵」が一番だね。とにかく品揃えが抜群だよ。 -92.14111483963103
 ```
 
-* To calculate scores for English sentences.
+* 英語文のスコアを計算したいとき
 ```python
 import mlmt
 
@@ -81,10 +80,10 @@ for sentence, score in zip(english_sample_sentences, scores):
 # Due to the rain, our performance in the game was free from perfect. -20.5683701854279
 ```
 
-## To change model config
-Basically, the config used to pre-train the model is automatically selected, but you can also use your own config.
+## configを変更したいとき
+基本はモデルの事前学習に用いられたconfigを自動で選択しますが，独自のconfigを用いることもできます．
 
-In that case, set `model_config` as follows.
+その場合は以下のように`model_config`を設定してください．
 ```python
 config = transformers.BertConfig(
         hidden_act="gelu",
@@ -107,7 +106,7 @@ scorer = mlmt.MLMScorer(pretrained_model_name, model_config=config, use_cuda=Fal
 model_config
 ```
 
-## Contacts
-Twitter: [@ryu1104_m](https://twitter.com/ryu1104_m)
+## 連絡先
+Twitter: [@ryu1104_m](https://twitter.com/ryu1104_m)'
 
 Mail: ryu1104.as[at]gmail.com
