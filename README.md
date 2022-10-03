@@ -1,5 +1,7 @@
 # mlm-scoring-transformers
 
+[日本語 README](https://github.com/Ryutaro-A/mlm-scoring-transformers/blob/main/README_JA.md)
+
 This package is a reproduced implementation of [Masked Language Model Scoring (ACL2020)](https://arxiv.org/abs/1910.14659).
 
 The original implementation uses the mxnet library, which does not support Japanese.
