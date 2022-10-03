@@ -37,10 +37,10 @@ japanese_sample_sentences = [
     '日本酒を飲むと、駅の反対側にある「××酒蔵」が一番だね。とにかく品揃えが抜群だよ。',
 ]
 
-scores = scorer.score_sentences(sample_sentences)
+scores = scorer.score_sentences(japanese_sample_sentences)
 
 print('input_sentence, score')
-for sentence, score in zip(sample_sentences, scores):
+for sentence, score in zip(japanese_sample_sentences, scores):
     print(sentence, score)
 
 # >> input_sentence, score
