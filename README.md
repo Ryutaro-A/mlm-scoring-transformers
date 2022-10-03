@@ -106,7 +106,6 @@ config = transformers.BertConfig(
         attention_probs_dropout_prob=0.37
 )
 scorer = mlmt.MLMScorer(pretrained_model_name, model_config=config, use_cuda=False)
-model_config
 ```
 
 ## Contacts
