@@ -108,6 +108,24 @@ config = transformers.BertConfig(
 scorer = mlmt.MLMScorer(pretrained_model_name, model_config=config, use_cuda=False)
 ```
 
+## Options
+2022/12/14 Added option to get per-token log-likelihood as well
+Setting `get_token_likelihood` to `True` returns the total score and the per-token score as a dictionary.
+```python
+scores = my_scorer.score_sentences(
+    sentences=en,
+    get_token_likelihood=True
+)
+
+print('input_sentence, score')
+for sentence, score in zip(en, scores):
+    print(sentence, score["all"])
+    print(score["token"])
+
+# Due to the rain, our performance in the game was far from perfect. -13.874687737519245
+# [-0.00044868520073119083, -0.0002509074244949909, -7.234254390419689, -0.1027699065355511, -0.05655604143014172, -0.04961800099545115, -0.0015554001203739796, -0.004590661092892022, -6.211619135159143, -0.21036846650855923, -0.0017955319970342492, -5.960464655174753e-08, -0.00011099000773481521, -0.00026807801725587353, -0.00048148300554723856]
+```
+
 ## License
 This software is released under the MIT License, see LICENSE.txt.
 
