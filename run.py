@@ -15,11 +15,12 @@ sample_sentences = [
     '日本酒を飲むと、駅の反対側にある「××酒蔵」が一番だね。とにかく品揃えが抜群だよ。',
 ]
 
-scores = my_scorer.score_sentences(sample_sentences)
+scores = my_scorer.score_sentences(sample_sentences, get_token_likelihood=True)
 
 print('input_sentence, score')
 for sentence, score in zip(sample_sentences, scores):
-    print(sentence, score)
+    print(sentence, score["all"])
+    print(score["token"])
 
 
 my_scorer = mlmt.MLMScorer('bert-base-uncased', use_cuda=False)
@@ -31,8 +32,9 @@ a = [
     'Due to the rain, our performance in the game was free from perfect.',
 ]
 
-scores = my_scorer.score_sentences(a)
+scores = my_scorer.score_sentences(a, get_token_likelihood=True)
 
 print('input_sentence, score')
 for sentence, score in zip(a, scores):
-    print(sentence, score)
+    print(sentence, score["all"])
+    print(score["token"])

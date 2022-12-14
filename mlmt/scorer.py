@@ -31,12 +31,16 @@ class MLMScorer():
     def score_sentences(
         self,
         sentences: str,
+        get_token_likelihood: bool=False,
     ) -> float:
 
-        mlm_score_list = []
+        if get_token_likelihood:
+            mlm_score_list = [{}]*len(sentences)
+        else:
+            mlm_score_list = [""]*len(sentences)
 
         # 1つの文章をバッチとして処理
-        for sentence in sentences:
+        for i, sentence in enumerate(sentences):
             tokenized_dic = self.tokenizer(sentence, return_tensors='pt')
             input_ids = tokenized_dic["input_ids"]
             token_type_ids = tokenized_dic["token_type_ids"]
@@ -47,13 +51,13 @@ class MLMScorer():
             sentence_size = input_ids.size(1)-1
 
             # input_idsとattention_maskに1つずらしでマスク処理
-            for i in range(sentence_size):
+            for j in range(sentence_size):
                 masked_input_ids = input_ids.clone()[0]
-                masked_input_ids[i] = self.mask_id
+                masked_input_ids[j] = self.mask_id
                 masked_input_ids_list.append(masked_input_ids)
 
                 masked_attention_mask = attention_mask.clone()[0]
-                masked_attention_mask[i] = 0
+                masked_attention_mask[j] = 0
                 masked_attention_mask_list.append(masked_attention_mask)
 
             masked_input_ids_tensor = torch.stack(masked_input_ids_list)[1:]
@@ -69,18 +73,25 @@ class MLMScorer():
                     attention_mask=masked_attention_mask_tensor.to(self.device)
                 )
 
-
-            log_likelihood = 0
+            log_likelihood_sum = 0
+            token_prob_list = [0]*len(logits)
             # 1トークンずつ予測確率を加算
-            for out, masked_ids, ids in zip(logits, masked_input_ids_tensor, input_ids_tensor):
+            for j, out, masked_ids, ids in zip(range(len(logits)), logits, masked_input_ids_tensor, input_ids_tensor):
                 target_index = masked_ids.tolist().index(self.mask_id)
                 target_id = ids[target_index].item()
-                if target_id == self.cls_id:
-                    continue
                 word_pred = out[target_index][target_id].item()
-                log_likelihood += math.log(word_pred)
+                # print(word_pred)
+                log_likelihood = math.log(word_pred)
+                token_prob_list[j] = log_likelihood
+                log_likelihood_sum += log_likelihood
             # ave_log_likelihood = log_likelihood / sentence_size
 
-            mlm_score_list.append(log_likelihood)
+                if get_token_likelihood:
+                    mlm_score_list[i] = {
+                        "all": log_likelihood_sum,
+                        "token": token_prob_list,
+                    }
+                else:
+                    mlm_score_list[i] = log_likelihood_sum
 
         return mlm_score_list
