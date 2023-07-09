@@ -7,7 +7,7 @@ setup(
     author="Ryutaro Asahara",
     packages=find_packages("mlmt"),
     install_requires=[
-        'transformers~=3.3.1',
+        'transformers',
         'fugashi<=1.1.2',
         'ipadic<=1.0.0'
     ],
